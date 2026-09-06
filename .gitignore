@@ -1,0 +1,9 @@
+node_modules/
+dist/
+build/bin/
+app/frontend/dist/
+app/frontend/node_modules/
+*.exe
+*.syso
+*.xlsx
+out/

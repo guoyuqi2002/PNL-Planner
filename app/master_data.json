@@ -1,0 +1,146 @@
+{
+  "1000000001": {
+    "mat_id": "1000000001",
+    "name": "Demo Glutinous Rice Ball Sesame 320g x10",
+    "retail_spec": 10,
+    "std_cost": 55,
+    "dist_landing_price": null,
+    "ec_assess_revenue": 128
+  },
+  "1000000002": {
+    "mat_id": "1000000002",
+    "name": "Demo Glutinous Rice Ball Peanut 320g x10",
+    "retail_spec": 10,
+    "std_cost": 56.5,
+    "dist_landing_price": null,
+    "ec_assess_revenue": 128
+  },
+  "1000000003": {
+    "mat_id": "1000000003",
+    "name": "Demo Mini Wonton Chicken 300g x8",
+    "retail_spec": 8,
+    "std_cost": 42,
+    "dist_landing_price": null,
+    "ec_assess_revenue": 98
+  },
+  "1000000004": {
+    "mat_id": "1000000004",
+    "name": "Demo Mini Wonton Shrimp 300g x8",
+    "retail_spec": 8,
+    "std_cost": 48,
+    "dist_landing_price": null,
+    "ec_assess_revenue": 105
+  },
+  "1000000005": {
+    "mat_id": "1000000005",
+    "name": "Demo Dumpling Pork and Cabbage 420g x7",
+    "retail_spec": 7,
+    "std_cost": 61.2,
+    "dist_landing_price": 75,
+    "ec_assess_revenue": 135
+  },
+  "1000000006": {
+    "mat_id": "1000000006",
+    "name": "Demo Dumpling Corn and Pork 420g x7",
+    "retail_spec": 7,
+    "std_cost": 59.8,
+    "dist_landing_price": 75,
+    "ec_assess_revenue": 135
+  },
+  "1000000007": {
+    "mat_id": "1000000007",
+    "name": "Demo Soup Dumpling Pork 300g x6",
+    "retail_spec": 6,
+    "std_cost": 45,
+    "dist_landing_price": null,
+    "ec_assess_revenue": 88
+  },
+  "1000000008": {
+    "mat_id": "1000000008",
+    "name": "Demo Shaomai Pork 240g x5",
+    "retail_spec": 5,
+    "std_cost": 32.5,
+    "dist_landing_price": null,
+    "ec_assess_revenue": 65
+  },
+  "1000000009": {
+    "mat_id": "1000000009",
+    "name": "Demo Sticky Rice Ball Red Bean 480g x10",
+    "retail_spec": 10,
+    "std_cost": null,
+    "dist_landing_price": null,
+    "ec_assess_revenue": 320
+  },
+  "1000000010": {
+    "mat_id": "1000000010",
+    "name": "Demo Tangyuan Xylitol 400g x8",
+    "retail_spec": 8,
+    "std_cost": null,
+    "dist_landing_price": null,
+    "ec_assess_revenue": 243
+  },
+  "1000000011": {
+    "mat_id": "1000000011",
+    "name": "Demo Rice Cake Osmanthus 400g x10",
+    "retail_spec": 10,
+    "std_cost": 40,
+    "dist_landing_price": 52,
+    "ec_assess_revenue": 92
+  },
+  "1000000012": {
+    "mat_id": "1000000012",
+    "name": "Demo Scallion Pancake 500g x8",
+    "retail_spec": 8,
+    "std_cost": 44.4,
+    "dist_landing_price": null,
+    "ec_assess_revenue": 102
+  },
+  "1000000013": {
+    "mat_id": "1000000013",
+    "name": "Demo Handheld Pie Egg 350g x9",
+    "retail_spec": 9,
+    "std_cost": 38.7,
+    "dist_landing_price": null,
+    "ec_assess_revenue": 96
+  },
+  "1000000014": {
+    "mat_id": "1000000014",
+    "name": "Demo Sweet Dumpling Black Sesame 160g x24",
+    "retail_spec": 24,
+    "std_cost": 67.2,
+    "dist_landing_price": 168,
+    "ec_assess_revenue": 381.6
+  },
+  "1000000015": {
+    "mat_id": "1000000015",
+    "name": "Demo Fish Meat Ball 250g x10",
+    "retail_spec": 10,
+    "std_cost": 52,
+    "dist_landing_price": null,
+    "ec_assess_revenue": 118
+  },
+  "1000000016": {
+    "mat_id": "1000000016",
+    "name": "Demo Beef Noodle Bowl 300g x12",
+    "retail_spec": 12,
+    "std_cost": 72,
+    "dist_landing_price": null,
+    "ec_assess_revenue": 156
+  },
+  "1000000017": {
+    "mat_id": "1000000017",
+    "name": "Demo Steamed Bun Custard 200g x12",
+    "retail_spec": 12,
+    "std_cost": 54,
+    "dist_landing_price": null,
+    "ec_assess_revenue": 120
+  },
+  "1000000018": {
+    "mat_id": "1000000018",
+    "name": "Demo Zongzi Pork 400g x8",
+    "retail_spec": 8,
+    "std_cost": 60,
+    "dist_landing_price": null,
+    "ec_assess_revenue": 132
+  }
+}
