@@ -309,9 +309,11 @@ func computeFromRow(row ConfigRow) ComputeResult {
 }
 
 // User data directory (stores the SKU library and other persistent data).
-// Tests can redirect it to a temp directory via PNL_PLANNER_TEST_DATA_DIR to
-// avoid touching real user data.
+// A separate demo profile keeps synthetic runs isolated from existing user data.
 func appDataDir() string {
+	if d := os.Getenv("PNL_PLANNER_DATA_DIR"); d != "" {
+		return d
+	}
 	if d := os.Getenv("PNL_PLANNER_TEST_DATA_DIR"); d != "" {
 		return d
 	}

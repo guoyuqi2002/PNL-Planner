@@ -29,11 +29,15 @@ function exitJieAn() {
     <header class="app-header">
       <div>
         <h1>Channel P&L Planner</h1>
-        <div class="sub">SKU Library -> Monthly Config -> Export</div>
+        <div class="sub">Plan channel profitability or reconcile orders into settlement reports.</div>
       </div>
     </header>
 
     <div class="app-container">
+      <nav class="workflow-navigation" aria-label="Planner workflows">
+        <el-button :type="!jieAnMode ? 'primary' : 'default'" :aria-pressed="!jieAnMode" @click="exitJieAn">Planning</el-button>
+        <el-button :type="jieAnMode ? 'primary' : 'default'" :aria-pressed="jieAnMode" @click="enterJieAn">Settlement</el-button>
+      </nav>
       <!-- Settlement mode (independent full screen) -->
       <JieAnPage v-if="jieAnMode" @back="exitJieAn" />
 
@@ -42,12 +46,7 @@ function exitJieAn() {
         <el-tab-pane label="1. SKU Library" name="sku">
           <SkuLibrary v-if="activeTab === 'sku'" />
         </el-tab-pane>
-        <el-tab-pane name="config">
-          <template #label>
-            <span>2. Monthly Config</span>
-            <el-button size="small" type="warning" link style="margin-left:4px"
-              @click="enterJieAn">Settlement Mode</el-button>
-          </template>
+        <el-tab-pane label="2. Monthly Config" name="config">
           <ConfigInput v-if="activeTab === 'config'" />
         </el-tab-pane>
         <el-tab-pane label="3. Export" name="export">
@@ -60,3 +59,8 @@ function exitJieAn() {
     </div>
   </div>
 </template>
+
+<style scoped>
+.workflow-navigation { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+.workflow-navigation :deep(.el-button + .el-button) { margin-left: 0; }
+</style>

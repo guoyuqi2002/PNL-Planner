@@ -55,8 +55,8 @@ func getDisplayName(axCode string) string {
 
 // OrderRecord is one parsed order record (after filtering)
 type OrderRecord struct {
-	AXCode  string  `json:"ax_code"`  // AX column, custom SKU code
-	Revenue float64 `json:"revenue"`  // BB-BL platform revenue
+	AXCode  string  `json:"ax_code"` // AX column, custom SKU code
+	Revenue float64 `json:"revenue"` // BB-BL platform revenue
 }
 
 // JieAnSKU is one SKU item of the settlement
@@ -98,7 +98,7 @@ func ProcessOrders(channel string, filePaths []string, threshold int, password s
 	// after normalization).
 	// Priority: explicitly set master_codes > lexicographically smallest fallback
 	// (guarantees deterministic results)
-	nameToMaster := map[string]string{} // "150 wonton*10" -> "sph20240730003"
+	nameToMaster := map[string]string{}
 	for axCode := range cm {
 		dn := getDisplayName(axCode)
 		if dn != axCode {
@@ -402,6 +402,9 @@ func ProcessOrders(channel string, filePaths []string, threshold int, password s
 
 	// Sort by occurrence count, descending
 	sort.Slice(allAX, func(i, j int) bool {
+		if allAX[i].count == allAX[j].count {
+			return allAX[i].code < allAX[j].code
+		}
 		return allAX[i].count > allAX[j].count
 	})
 
@@ -683,8 +686,7 @@ func ExportJieAnTable(req JieAnExportRequest) (string, error) {
 	}
 
 	// Save
-	path := saveToTempDialog(f, "Settlement_"+sheet+".xlsx")
-	return path, nil
+	return saveToTempDialog(f, "Settlement_"+sheet+".xlsx")
 }
 
 // setCellJieAn writes a cell + style
@@ -776,7 +778,7 @@ func ExportZhouBaoTable(req ZhouBaoExportRequest) (string, error) {
 
 	// Derived metrics
 	grossProfitTotal := totalCompanyRev - totalStdCost
-	discountAmt := totalCompanyRev - totalRev/1.13                     // CP1.2 sales discount
+	discountAmt := totalCompanyRev - totalRev/1.13                                   // CP1.2 sales discount
 	marketingFee := totalAP + totalTP22 + totalCreatorComm + totalSlot + discountAmt // total marketing fee (incl. AP)
 
 	// Assessed net profit (incl. AP) = gross - marketing (incl. AP) - PP - MP - FP - AE
@@ -839,16 +841,15 @@ func ExportZhouBaoTable(req ZhouBaoExportRequest) (string, error) {
 	setCellJieAn(f, sheet, 18, 5, totalTP22, moneySt)        // F Platform Fee = total platform revenue x 2%
 	setCellJieAn(f, sheet, 18, 6, totalCreatorComm, moneySt) // G Commission
 
-	path := saveToTempDialog(f, "WeeklyReport_"+sheet+".xlsx")
-	return path, nil
+	return saveToTempDialog(f, "WeeklyReport_"+sheet+".xlsx")
 }
 
 // saveToTempDialog saves to a temp location (the actual Save As is handled by app.go's
 // saveToUserPath)
-func saveToTempDialog(f *excelize.File, defaultName string) string {
-	enableFullCalc(f)
-	dir := exportDir()
-	path := dir + "/" + defaultName
-	f.SaveAs(path)
-	return path
+func saveToTempDialog(f *excelize.File, defaultName string) (string, error) {
+	path := exportDir() + "/" + defaultName
+	if err := saveExcelWithCalc(f, path); err != nil {
+		return "", err
+	}
+	return path, nil
 }

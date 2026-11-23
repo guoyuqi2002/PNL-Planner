@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/xuri/excelize/v2"
@@ -151,9 +152,9 @@ func splitTextStyle(f *excelize.File) int {
 // pivotHeaderStyle is the drill-down header (bold + light blue)
 func pivotHeaderStyle(f *excelize.File) int {
 	s, _ := f.NewStyle(&excelize.Style{
-		Font:      &excelize.Font{Bold: true, Size: 11, Family: "Microsoft YaHei"},
-		Fill:      excelize.Fill{Type: "pattern", Color: []string{headerFill}, Pattern: 1},
-		Border:    stdBorder(),
+		Font:   &excelize.Font{Bold: true, Size: 11, Family: "Microsoft YaHei"},
+		Fill:   excelize.Fill{Type: "pattern", Color: []string{headerFill}, Pattern: 1},
+		Border: stdBorder(),
 	})
 	return s
 }
@@ -640,10 +641,10 @@ func ExportPivotTable(department string) (string, error) {
 
 		// 11 fee items
 		feeItems := []struct {
-			name     string
-			yearVal  float64
-			yearRate interface{}
-			monthVal func(m string) float64
+			name      string
+			yearVal   float64
+			yearRate  interface{}
+			monthVal  func(m string) float64
 			monthRate func(m string) interface{}
 		}{
 			{"Revenue", yearAgg["company_rev"], nil,
@@ -851,5 +852,23 @@ func enableFullCalc(f *excelize.File) {
 // saveExcelWithCalc saves the Excel file with recalculation-on-open enabled
 func saveExcelWithCalc(f *excelize.File, path string) error {
 	enableFullCalc(f)
-	return f.SaveAs(path)
+	return saveWorkbook(f, path)
+}
+
+// Write and close the workbook before replacing the destination file.
+func saveWorkbook(f *excelize.File, path string) error {
+	tmp, err := os.CreateTemp(filepath.Dir(path), "pnl-*.xlsx")
+	if err != nil {
+		return err
+	}
+	defer os.Remove(tmp.Name())
+	_, writeErr := f.WriteTo(tmp)
+	closeErr := tmp.Close()
+	if writeErr != nil {
+		return writeErr
+	}
+	if closeErr != nil {
+		return closeErr
+	}
+	return os.Rename(tmp.Name(), path)
 }

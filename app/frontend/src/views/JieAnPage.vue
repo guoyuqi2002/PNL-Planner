@@ -59,35 +59,44 @@ async function handleProcess() {
   processing.value = true
   try {
     const res = await processOrderFiles(selectedChannel.value, allFiles, threshold.value, ksPassword.value)
-    if (res && res.data) {
-      jieAnResult.value = res.data
-      // Build the config rows
-      configRows.value = (res.data.skus || []).map(sku => ({
-        ax_code: sku.ax_code,
-        display_name: sku.display_name || sku.ax_code,
-        revenue: sku.revenue,
-        creator_comm: sku.creator_comm || 0,
-        own_revenue: sku.own_revenue ?? sku.revenue,
-        merged_revenue: sku.merged_revenue || 0,
-        count: sku.count,
-        unit_price: sku.unit_price || 0,
-        creator_rate: (sku.creator_rate || 0) * 100,
-        platform_price: sku.platform_price || 0,
-        mat_ids: sku.mat_ids || [],
-        mat_names: sku.mat_names || [],
-        sub_items: sku.sub_items || [],
-        is_merged: sku.is_merged,
-        merged_from: sku.merged_from,
-        shop: 'Demo Mini Store',
-        creator_slot: 0,
-        leader_rate: 0,
-        logistics: 5,
-        ap_rate: 2.6,
-        mp_rate: 7.9,
-      }))
-      step.value = 3
-      ElMessage.success(`Processing done: ${configRows.value.length} SKU(s), ${res.data.total_rows || 0} rows filtered`)
+    if (!res.ok || !res.data) {
+      throw new Error(res.error?.message || String(res.error || 'No results were returned.'))
     }
+    if (!res.data.total_rows) {
+      ElMessage.warning('No order rows matched the channel filters. Check the format and order status.')
+      return
+    }
+    if (!res.data.skus?.length) {
+      ElMessage.warning('No SKU reached the quantity threshold. Lower the threshold and retry.')
+      return
+    }
+    jieAnResult.value = res.data
+    // Build the config rows
+    configRows.value = (res.data.skus || []).map(sku => ({
+      ax_code: sku.ax_code,
+      display_name: sku.display_name || sku.ax_code,
+      revenue: sku.revenue,
+      creator_comm: sku.creator_comm || 0,
+      own_revenue: sku.own_revenue ?? sku.revenue,
+      merged_revenue: sku.merged_revenue || 0,
+      count: sku.count,
+      unit_price: sku.unit_price || 0,
+      creator_rate: (sku.creator_rate || 0) * 100,
+      platform_price: sku.platform_price || 0,
+      mat_ids: sku.mat_ids || [],
+      mat_names: sku.mat_names || [],
+      sub_items: sku.sub_items || [],
+      is_merged: sku.is_merged,
+      merged_from: sku.merged_from,
+      shop: 'Demo Mini Store',
+      creator_slot: 0,
+      leader_rate: 0,
+      logistics: 5,
+      ap_rate: 2.6,
+      mp_rate: 7.9,
+    }))
+    step.value = 3
+    ElMessage.success(`Processing done: ${configRows.value.length} SKU(s), ${res.data.total_rows || 0} rows filtered`)
   } catch (e) {
     ElMessage.error('Processing failed: ' + (e?.message || String(e)))
   } finally {

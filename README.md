@@ -81,7 +81,8 @@ app/                      Wails desktop application
   code_mapping.json       SYNTHETIC demo barcode->material mapping (embedded)
   frontend/               Vue 3 + Element Plus UI
   build/                  Wails build assets (icons, manifests, installer)
-tools/influencer-scraper/ Node browser-automation scrapers for chanmama.com
+examples/                 Synthetic order fixture for the settlement workflow
+
 ```
 
 ## Build & run
@@ -105,9 +106,14 @@ groups). The company's real internal product database, order files and workbooks
 **not** included in this repository. All company, shop and product names in the code
 are neutral placeholders.
 
-## tools/influencer-scraper
 
-Two Node modules (`cmm.mjs`, `rankscraper.mjs`) that scrape influencer analytics from
-chanmama.com - a ranking crawler and a profile lookup/classifier used for authorized
-market research during the same internship. See
-[tools/influencer-scraper/README.md](tools/influencer-scraper/README.md).
+
+## Synthetic portfolio walkthrough
+
+Set PNL_PLANNER_DATA_DIR to the path of a new empty local directory before launching Wails to isolate the demo catalog, SKU library and overrides from an existing profile.
+
+- **Planning** — Add a SKU based on demo material 1000000001 and two units. In **Monthly Config**, choose August 2026, Influencer Distribution, Douyin, Influencer Live and Demo Fresh Flagship Store. Select platform revenue as the target basis. Enter a target of 1,000, allocate 100% to the SKU and use a platform price of 40. The preview shows 25 estimated units and 275 in standard cost. Save the plan and generate the split workbook in **Export**.
+- **Settlement** — Select Douyin and import examples/demo-douyin-orders.csv. Set the quantity threshold to 5. The importer keeps three order rows and merges the smaller SKU into Demo Wonton Twin Pack. The output shows 320 in platform revenue, including 45 from the merged SKU. Review the fee inputs and export the settlement workbook.
+- **Data Update** — Use the demo profile for imports that change materials or SKU mappings.
+
+The order fixture uses fictional order references and creators. Both workflows run without an API key.

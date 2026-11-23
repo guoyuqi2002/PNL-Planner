@@ -168,7 +168,7 @@ async function handleSave() {
       cp53_rate: r.cp53_rate / 100,
       logistics_cost: r.logistics_cost,
     }))
-    const res = (await saveConfig({
+    const response = await saveConfig({
       year_month: form.year_month,
       department: form.department,
       channel: form.channel,
@@ -177,9 +177,14 @@ async function handleSave() {
       monthly_revenue_target: form.monthly_revenue_target,
       target_mode: form.target_mode,
       rows: payloadRows,
-    })).data
-    ElMessage.success(`Saved ${res.saved} SKU(s)`)
-    if (res.saved === 0) ElMessage.warning('Saved 0 rows: SKU name not found in the library, check the name in "SKU Library"')
+    })
+    if (!response.ok || !response.data?.ok) {
+      const message = response.data?.error || response.error || 'Unknown error'
+      ElMessage.error('Save failed: ' + (message?.message || String(message)))
+      return
+    }
+    ElMessage.success(`Saved ${response.data.saved} SKU(s)`)
+    refreshSaved()
   } catch (e) {
     ElMessage.error('Save failed: ' + (e.response?.data?.detail || e.message))
   }

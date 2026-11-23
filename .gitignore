@@ -7,3 +7,9 @@ app/frontend/node_modules/
 *.syso
 *.xlsx
 out/
+
+.env
+.env.*
+*.db
+*.db-shm
+*.db-wal

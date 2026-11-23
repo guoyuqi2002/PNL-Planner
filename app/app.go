@@ -282,11 +282,14 @@ func (a *App) GetDimensions(yearMonth string) []DimensionInfo {
 }
 
 func (a *App) SaveConfig(req SaveConfigRequest) map[string]interface{} {
+	if len(req.Rows) == 0 {
+		return map[string]interface{}{"saved": 0, "ok": false, "error": "Add at least one SKU before saving."}
+	}
 	var rows []ConfigRow
 	for _, r := range req.Rows {
 		sku := GetSkuFromLibrary(r.ComboName)
 		if sku == nil {
-			continue
+			return map[string]interface{}{"saved": 0, "ok": false, "error": fmt.Sprintf("SKU %q was not found in the library.", r.ComboName)}
 		}
 		r.SubItems = sku.SubItems
 		rows = append(rows, r)
